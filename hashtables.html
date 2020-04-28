@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HashTable</title>
+</head>
+<style>
+  body {
+    background-image: url("div2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+  
+  }
+  div {
+    display: flex;
+      background-color:transparent;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin-top: 100px;
+    font-size: 1.6em;
+    color: black;
+
+  }
+</style>
+<body> 
+  <div>
+    <p>This is a Hash Table class that stores strings in a hash table, 
+      where keys are calculated using the first two letters of the string</p>
+    <p>Kindly inspect element and visit console for results</p>
+  </div>
+<script>
+
+
+var hash = (string, max) => {
+  var hash = 0;
+  for (var i = 0; i < string.length; i++) {
+    hash += string.charCodeAt(i);
+  }
+  return hash % max;
+};
+
+let HashTable = function() {
+
+  let store = [];
+  const storeLimit = 14;
+  
+  this.print = function() {
+    console.log(store)
+  }
+
+  this.add = function(key, value) {
+    var index = hash(key, storeLimit);
+    if (store[index] === undefined) {
+      store[index] = [
+        [key, value]
+      ];
+    } else {
+      var inserted = false;
+      for (var i = 0; i < store[index].length; i++) {
+        if (store[index][i][0] === key) {
+          store[index][i][1] = value;
+          inserted = true;
+        }
+      }
+      if (inserted === false) {
+        store[index].push([key, value]);
+      }
+    }
+  };
+
+  this.remove = function(key) {
+    var index = hash(key, storeLimit);
+    if (store[index].length === 1 && store[index][0][0] === key) {
+      delete store[index];
+    } else {
+      for (var i = 0; i < store[index].length; i++) {
+        if (store[index][i][0] === key) {
+          delete store[index][i];
+        }
+      }
+    }
+  };
+
+  this.lookup = function(key) {
+    var index = hash(key, storeLimit);
+    if (store[index] === undefined) {
+      return undefined;
+    } else {
+      for (var i = 0; i < store[index].length; i++) {
+        if (store[index][i][0] === key) {
+          return store[index][i][1];
+        }
+      }
+    }
+  };
+
+};
+
+
+console.log(hash('miriam', 40))
+
+let b = new HashTable();
+b.add('John', 'name');
+b.add('GIS', 'college');
+b.add('nike', 'shoe');
+b.add('toyota prado', 'vehicle')
+console.log(b.lookup('GIS'))
+b.print();
+</script>   
+</body>
+</html>
